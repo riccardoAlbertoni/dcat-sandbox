@@ -4,13 +4,9 @@ on:
   pull_request:
     paths:
       - "dcat/rdf/dcat3.ttl"
-      - "scripts/**"
-      - ".github/workflows/validate-rdf.yml"
   push:
     paths:
       - "dcat/rdf/dcat3.ttl"
-      - "scripts/**"
-      - ".github/workflows/validate-rdf.yml"
 
 jobs:
   validate:
