@@ -1,0 +1,47 @@
+name: Publish GitHub Pages
+
+on:
+  push:
+    branches:
+      - gh-pages
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Java 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+      - name: Install Apache Jena
+        run: |
+          curl --fail --silent --show-error --location \
+            https://archive.apache.org/dist/jena/binaries/apache-jena-6.2.0.tar.gz \
+            | tar -xz
+          echo "$PWD/apache-jena-6.2.0/bin" >> "$GITHUB_PATH"
+      - name: Build publication site
+        run: scripts/build-publication.sh "$RUNNER_TEMP/site"
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: ${{ runner.temp }}/site
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

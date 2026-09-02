@@ -1,0 +1,28 @@
+name: Validate DCAT RDF
+
+on:
+  pull_request:
+    paths:
+      - "dcat/rdf/dcat3.ttl"
+  push:
+    paths:
+      - "dcat/rdf/dcat3.ttl"
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Java 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+      - name: Install Apache Jena
+        run: |
+          curl --fail --silent --show-error --location \
+            https://archive.apache.org/dist/jena/binaries/apache-jena-6.2.0.tar.gz \
+            | tar -xz
+          echo "$PWD/apache-jena-6.2.0/bin" >> "$GITHUB_PATH"
+      - name: Generate and validate serializations
+        run: scripts/generate-rdf.sh
