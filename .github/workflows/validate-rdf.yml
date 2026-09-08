@@ -23,7 +23,7 @@ jobs:
           java-version: "21"
       # Reuse the pinned Jena installation between workflow runs.
       - name: Cache Apache Jena
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: ~/.cache/apache-jena/6.2.0
           key: ${{ runner.os }}-apache-jena-${{ env.JENA_VERSION }}
