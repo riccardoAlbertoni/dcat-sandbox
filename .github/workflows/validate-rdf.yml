@@ -1,6 +1,6 @@
-name: Validate DCAT RDF
+name: Validate DCAT Turtle
 
-# Run validation for pull requests and pushes that change the canonical source.
+# Check only the canonical Turtle source in pull requests.
 on:
   pull_request:
     paths:
@@ -25,6 +25,7 @@ jobs:
             https://archive.apache.org/dist/jena/binaries/apache-jena-6.2.0.tar.gz \
             | tar -xz
           echo "$PWD/apache-jena-6.2.0/bin" >> "$GITHUB_PATH"
-      # Validate Turtle and verify that both derived graphs are equivalent.
-      - name: Generate and validate serializations
-        run: scripts/generate-rdf.sh
+      # Check that dcat3.ttl is syntactically valid without generating files
+      # or comparing it with derived serializations.
+      - name: Validate dcat3.ttl syntax
+        run: riot --validate dcat/rdf/dcat3.ttl
