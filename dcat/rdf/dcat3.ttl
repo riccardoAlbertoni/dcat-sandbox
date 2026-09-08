@@ -1866,3 +1866,5 @@ foaf:primaryTopic
   rdfs:comment "This axiom needed so that Protege loads DCAT 3 without errors."@en;
   rdfs:comment "Este axioma se necesita de manera que Protege cargue DCAT 3 sin problemas."@es ;
 .
+
+this is deliberately invalid Turtle
