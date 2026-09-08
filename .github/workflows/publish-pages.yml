@@ -23,7 +23,6 @@ jobs:
     runs-on: ubuntu-latest
     env:
       JENA_VERSION: "6.2.0"
-      JENA_HOME: ~/.cache/apache-jena/6.2.0
     steps:
       # Build the site from the merged gh-pages commit.
       - uses: actions/checkout@v5
@@ -41,6 +40,7 @@ jobs:
           key: ${{ runner.os }}-apache-jena-${{ env.JENA_VERSION }}
       - name: Install Apache Jena
         run: |
+          JENA_HOME="$HOME/.cache/apache-jena/${JENA_VERSION}"
           if [ ! -x "$JENA_HOME/bin/riot" ]; then
             mkdir -p "$JENA_HOME"
             curl --fail --silent --show-error --location \
