@@ -21,6 +21,8 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      JENA_VERSION: "6.2.0"
     steps:
       # Build the site from the merged gh-pages commit.
       - uses: actions/checkout@v5
@@ -30,13 +32,22 @@ jobs:
         with:
           distribution: temurin
           java-version: "21"
-      # Install the same pinned Jena release used by validation.
+      # Reuse the pinned Jena installation between workflow runs.
+      - name: Cache Apache Jena
+        uses: actions/cache@v5
+        with:
+          path: ~/.cache/apache-jena/6.2.0
+          key: ${{ runner.os }}-apache-jena-${{ env.JENA_VERSION }}
       - name: Install Apache Jena
         run: |
-          curl --fail --silent --show-error --location \
-            https://archive.apache.org/dist/jena/binaries/apache-jena-6.2.0.tar.gz \
-            | tar -xz
-          echo "$PWD/apache-jena-6.2.0/bin" >> "$GITHUB_PATH"
+          JENA_HOME="$HOME/.cache/apache-jena/${JENA_VERSION}"
+          if [ ! -x "$JENA_HOME/bin/riot" ]; then
+            mkdir -p "$JENA_HOME"
+            curl --fail --silent --show-error --location \
+              "https://archive.apache.org/dist/jena/binaries/apache-jena-${JENA_VERSION}.tar.gz" \
+              | tar -xz --strip-components=1 -C "$JENA_HOME"
+          fi
+          echo "$JENA_HOME/bin" >> "$GITHUB_PATH"
       # Copy the site and generate JSON-LD/RDF/XML from dcat3.ttl.
       - name: Build publication site
         run: scripts/build-publication.sh "$RUNNER_TEMP/site"
