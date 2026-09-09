@@ -1,4 +1,4 @@
-name: Publish GitHub Pages
+name: Publish GitHub RDF Pages
 
 # Generate and deploy only the merge result that reaches gh-pages.
 on:
