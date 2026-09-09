@@ -52,7 +52,7 @@ jobs:
       - name: Build publication site
         run: scripts/build-publication.sh "$RUNNER_TEMP/site"
       # Pass the complete generated site to the deployment job.
-      - uses: actions/upload-pages-artifact@v4
+      - uses: actions/upload-pages-artifact@v5
         with:
           path: ${{ runner.temp }}/site
   deploy:
