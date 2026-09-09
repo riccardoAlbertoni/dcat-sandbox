@@ -223,6 +223,7 @@ dcat:Catalog
 dcat:CatalogRecord
   a rdfs:Class ;
   a owl:Class ;
+  rdfs:comment "Test finctional statement B"@en ;
   rdfs:comment "1つのデータセットを記述したデータ・カタログ内のレコード。"@ja ;
   rdfs:comment "A record in a data catalog, describing the registration of a single dataset or data service."@en ;
   rdfs:comment "Un record in un catalogo di dati che descrive un singolo dataset o servizio di dati."@it ;
