@@ -23,3 +23,5 @@ This repository contains the *Dataset Catalogue Vocabulary* (DCAT) work of the *
   - Dedicated repository: https://github.com/w3c/dx-prof
 - [Content Negotiation by Profile (Editors' Draft)](https://w3c.github.io/dx-connegp/) 
   - Dedicated repository: https://github.com/w3c/dx-connegp
+
+<!-- Issue 11 rerun: unrelated documentation change. -->
